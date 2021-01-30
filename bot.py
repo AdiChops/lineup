@@ -3,11 +3,9 @@ from discord.ext import commands
 
 from classes.Event import Event
 
-ids = 0
-
 client = commands.Bot(command_prefix = '.')
 id_increment = 0
-events = []
+events = {}
 
 
 @client.event
@@ -24,7 +22,7 @@ async def ping(ctx):
 async def begin(ctx, *, event_name):
     global id_increment
     event = Event(id_increment, event_name, ctx.author)
-    events.append(event)
+    events[id_increment] = event
     id_increment += 1
     await ctx.send(f'{event.host.display_name} started {event.eventName}. Use id {event.id} to enter queue.')
 
@@ -42,6 +40,7 @@ async def lq(ctx):
         for event in events:
             embedVar.add_field(name=event.eventName, value=f'Hosted by: {event.host}. ID: {event.id}', inline=False)
         await ctx.send(embed=embedVar)
+
 
 @client.command()
 async def queue(ctx, id):

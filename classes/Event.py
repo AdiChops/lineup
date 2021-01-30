@@ -1,3 +1,4 @@
+import Question
 class Event:
     def __init__(self, _id, _eventname, _host):
         self.id = _id
@@ -8,5 +9,5 @@ class Event:
     def __str__(self):
         return f'{self.eventName} hosted by: {self.host.display_name}. ID: {self.id}'
 
-    def enter_queue(self, user):
-        self.queue.append(user)
+    def enter_queue(self, user, topic):
+        self.queue.append(Question(user, topic))

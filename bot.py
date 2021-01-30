@@ -3,7 +3,7 @@ from discord.ext import commands
 
 from classes.Event import Event
 
-client = commands.Bot(command_prefix='.')
+client = commands.Bot(command_prefix = '.')
 id_increment = 0
 events = {}
 
@@ -38,7 +38,7 @@ async def lq(ctx):
         embedVar = discord.Embed(title="Current events",
                                  description="To ask a question in an event type .enter [event_id]", color=0x902020)
         for event in events:
-            embedVar.add_field(name=event.eventName, value=f'Hosted by: {event.host.display_name}. ID: {event.id}', inline=False)
+            embedVar.add_field(name=event.eventName, value=f'Hosted by: {event.host}. ID: {event.id}', inline=False)
         await ctx.send(embed=embedVar)
 
 
@@ -47,6 +47,15 @@ async def queue(ctx, id):
     for event in events:
         if event.id == id:
             embedVar = discord.Embed(title="Queue " + id, description="User 1\n User 2\nUser 3")
+    await ctx.send(embed=embedVar)
+
+@client.command()
+async def enter(ctx, event_id, topic):
+    embedVar = ""
+    for event in events:
+        if events[event].id == int(event_id):
+            events[event].enter_queue(ctx.author, topic)
+            embedVar = discord.Embed(f'{events[event].host.display_name} was added to the queue.')
     await ctx.send(embed=embedVar)
 
 client.run('ODA1MTIwMTc4ODAyMzkzMTA4.YBWQmQ.HynCQfH1FcaRR-ah6UycFOd7sSs')

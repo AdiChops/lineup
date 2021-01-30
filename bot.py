@@ -66,13 +66,14 @@ async def queue(ctx, id):
             embedVar = discord.Embed(title=f"{server_events[event_id].eventName}",
                                      description=f"Hosted by: {server_events[event_id].host.display_name}", color=0x902020)
             for entry in server_events[event_id].queue:
-                embedVar.add_field(name=f"{count}. {entry.topic}", value=f"Question asked by {entry.author}")
+                embedVar.add_field(name=f"{count}. {entry.topic}",
+                                   value=f"Question asked by {entry.author.display_name}", inline=False)
                 count += 1
             await ctx.send(embed=embedVar)
 
 
 @client.command()
-async def enter(ctx, id, *, topic):
+async def enter(ctx, id, *, topic="Topic N/A"):
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -100,5 +101,6 @@ async def clear(ctx, id):
         else:
             server_events[event_id].clear_queue()
             await ctx.send(f"The queue has been cleared for {server_events[event_id].eventName}.")
+
 
 client.run('ODA1MTIwMTc4ODAyMzkzMTA4.YBWQmQ.HynCQfH1FcaRR-ah6UycFOd7sSs')

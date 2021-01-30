@@ -1,5 +1,4 @@
 import discord
-from classes import Event
 from discord.ext import commands
 
 from classes.Event import Event
@@ -9,6 +8,7 @@ ids = 0
 client = commands.Bot(command_prefix = '.')
 id_increment = 0
 events = []
+
 
 @client.event
 async def on_ready():
@@ -23,10 +23,11 @@ async def ping(ctx):
 @client.command()
 async def begin(ctx, *, event_name):
     global id_increment
-    event = Event.Event(id_increment, event_name, ctx.author.display_name)
+    event = Event(id_increment, event_name, ctx.author)
     events.append(event)
     id_increment += 1
-    await ctx.send(f'{event.host} started {event.eventName}. Use id {event.id} to enter queue.')
+    await ctx.send(f'{event.host.display_name} started {event.eventName}. Use id {event.id} to enter queue.')
+
 
 @client.command(aliases=['listq', 'listqueue'])
 async def lq(ctx):

@@ -11,3 +11,6 @@ class Event:
 
     def enter_queue(self, user, topic):
         self.queue.append(Question(user, topic))
+
+    def resolve(self):
+        return self.queue.pop(0)

@@ -6,4 +6,7 @@ class Event:
         self.queue = []
 
     def __str__(self):
-        return f'{self.eventName} hosted by: {self.host}. ID: {self.id}'
+        return f'{self.eventName} hosted by: {self.host.display_name}. ID: {self.id}'
+
+    def enter_queue(self, user):
+        self.queue.append(user)

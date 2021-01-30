@@ -1,4 +1,4 @@
-from.import Question
+from classes.Question import Question
 class Event:
     def __init__(self, _id, _eventname, _host):
         self.id = _id

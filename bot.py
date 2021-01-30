@@ -78,4 +78,21 @@ async def enter(ctx, event_id, *, topic):
             server_events[event_id].enter_queue(ctx.author, topic)
             await ctx.send(f"{ctx.author.display_name} was added to queue {event_id}")
 
+@client.command()
+async def clear(ctx, event_id):
+    event_found = False
+    if ctx.guild.id not in servers:
+        await ctx.send("Sorry I wasn't able to find any events")
+    else:
+        server_events = servers[ctx.guild.id]
+        for event in server_events:
+            if server_events[event].id == int(event_id):
+                event_found = True
+                server_events[event].queue = []
+                break
+            if not event_found:
+                await ctx
+            else:
+                await ctx.send(f"Queue for event {event_id} has been cleared")
+
 client.run('ODA1MTIwMTc4ODAyMzkzMTA4.YBWQmQ.HynCQfH1FcaRR-ah6UycFOd7sSs')

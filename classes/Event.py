@@ -1,4 +1,6 @@
 from classes.Question import Question
+
+
 class Event:
     def __init__(self, _id, _eventname, _host):
         self.id = _id
@@ -14,3 +16,6 @@ class Event:
 
     def resolve(self):
         return self.queue.pop(0)
+
+    def clear_queue(self):
+        self.queue = []

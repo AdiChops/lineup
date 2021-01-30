@@ -49,13 +49,15 @@ async def lq(ctx):
 
 
 @client.command(aliases=['q'])
-async def queue(ctx, event_id):
+async def queue(ctx, id):
     if not check_events_server(ctx):
-        await ctx.send("Sorry I wasn't able to find any events")
+        await ctx.send("Sorry, I wasn't able to find any events")
     else:
         server_events = servers[ctx.guild.id]
+        event_id = int(id)
         if event_id not in server_events:
-            await ctx.send("Sorry I wasn't able to find that event")
+            print(server_events)
+            await ctx.send("Sorry, I wasn't able to find that event")
         else:
             count = 1
             embedVar = discord.Embed(title=f"{server_events[event_id].eventName}",
@@ -67,32 +69,32 @@ async def queue(ctx, event_id):
 
 
 @client.command()
-async def enter(ctx, event_id, *, topic):
+async def enter(ctx, id, *, topic):
     if not check_events_server(ctx):
-        await ctx.send("Sorry I wasn't able to find any events")
+        await ctx.send("Sorry, I wasn't able to find any events")
     else:
         server_events = servers[ctx.guild.id]
+        event_id = int(id)
         if event_id not in server_events:
-            await ctx.send(f"Sorry I wasn't able to find any event with ID: {event_id}")
+            await ctx.send(f"Sorry, I wasn't able to find any event with ID: {event_id}")
         else:
             server_events[event_id].enter_queue(ctx.author, topic)
             await ctx.send(f"{ctx.author.display_name} was added to queue {event_id}")
 
+
 @client.command()
-async def clear(ctx, event_id):
-    event_found = False
+async def clear(ctx, id):
     if ctx.guild.id not in servers:
-        await ctx.send("Sorry I wasn't able to find any events")
+        await ctx.send("Sorry, I wasn't able to find any events")
     else:
         server_events = servers[ctx.guild.id]
-        for event in server_events:
-            if server_events[event].id == int(event_id):
-                event_found = True
-                server_events[event].queue = []
-                break
-            if not event_found:
-                await ctx
-            else:
-                await ctx.send(f"Queue for event {event_id} has been cleared")
+        event_id = int(id)
+        if event_id not in server_events:
+            await ctx.send(f"Sorry, I wasn't able to find any event with ID: {event_id}")
+        elif ctx.author != server_events[event_id].host:
+            await ctx.send("You are not the host for this event. Only the host can clear the queue for this event.")
+        else:
+            server_events[event_id].clear_queue()
+            await ctx.send(f"The queue has been cleared for {server_events[event_id].eventName}.")
 
 client.run('ODA1MTIwMTc4ODAyMzkzMTA4.YBWQmQ.HynCQfH1FcaRR-ah6UycFOd7sSs')

@@ -42,5 +42,12 @@ async def lq(ctx):
             embedVar.add_field(name=event.eventName, value=f'Hosted by: {event.host}. ID: {event.id}', inline=False)
         await ctx.send(embed=embedVar)
 
+@client.command()
+async def queue(ctx, id):
+    for event in events:
+        if event.id == id:
+            embedVar = discord.Embed(title="Queue " + id, description="User 1\n User 2\nUser 3")
+    await ctx.send(embed=embedVar)
+
 client.run('ODA1MTIwMTc4ODAyMzkzMTA4.YBWQmQ.HynCQfH1FcaRR-ah6UycFOd7sSs')
 

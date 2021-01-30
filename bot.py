@@ -23,7 +23,7 @@ async def ping(ctx):
 @client.command()
 async def begin(ctx, *, event_name):
     global id_increment
-    event = Event.Event(id_increment, event_name, ctx.author)
+    event = Event.Event(id_increment, event_name, ctx.author.display_name)
     events.append(event)
     id_increment += 1
     await ctx.send(f'{event.host} started {event.eventName}. Use id {event.id} to enter queue.')

@@ -1,10 +1,11 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import has_permissions
+
 from classes.Event import Event
 
 client = commands.Bot(command_prefix='.')
 id_increment = 0
-events = {}
 servers = {}
 
 def check_events_server(ctx):
@@ -17,10 +18,12 @@ async def on_ready():
 
 @client.command()
 async def ping(ctx):
+    """Returns the latency of the bot"""
     await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
 
 
 @client.command()
+@has_permissions(administrator=True)
 async def begin(ctx, *, event_name):
     global id_increment
     event = Event(id_increment, event_name, ctx.author)
@@ -83,6 +86,7 @@ async def enter(ctx, id, *, topic):
 
 
 @client.command()
+@has_permissions(administrator=True)
 async def clear(ctx, id):
     if ctx.guild.id not in servers:
         await ctx.send("Sorry, I wasn't able to find any events")

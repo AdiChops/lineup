@@ -3,7 +3,7 @@ from discord.ext import commands
 
 from classes.Event import Event
 
-client = commands.Bot(command_prefix = '.')
+client = commands.Bot(command_prefix='.')
 id_increment = 0
 events = {}
 
@@ -38,7 +38,7 @@ async def lq(ctx):
         embedVar = discord.Embed(title="Current events",
                                  description="To ask a question in an event type .enter [event_id]", color=0x902020)
         for event in events:
-            embedVar.add_field(name=event.eventName, value=f'Hosted by: {event.host}. ID: {event.id}', inline=False)
+            embedVar.add_field(name=event.eventName, value=f'Hosted by: {event.host.display_name}. ID: {event.id}', inline=False)
         await ctx.send(embed=embedVar)
 
 

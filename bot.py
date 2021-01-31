@@ -195,16 +195,22 @@ async def ready(ctx, id):
             await ctx.send(f"{server_events[event_id].currently_served().mention}, {server_events[event_id].host.display_name} is ready for you!")
 
 @client.command()
-async def rename(ctx, id, question_index, *, new_question):
+async def rename(ctx, id, ind, *, new_question):
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
         server_events = servers[ctx.guild.id]
         event_id = int(id)
+        question_index = int(ind)
         if event_id not in server_events:
             await ctx.send(f"Sorry, I wasn't able to find any event with ID: {event_id}")
         else:
-            if
+            current = server_events[event_id].get_question_at(question_index - 1)
+            if current.author != ctx.author:
+                await ctx.send("You can only rename a topic that you entered.")
+            else:
+                current.topic = new_question
+                await ctx.send("The topic was renamed")
 
 
 

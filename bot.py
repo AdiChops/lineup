@@ -27,7 +27,7 @@ async def ping(ctx):
 @client.command()
 @commands.has_role('Host')
 async def begin(ctx, *, event_name):
-    """Only for administrators: begins an even with <event_name>"""
+    """Only for hosts: begins an even with <event_name>"""
     global id_increment
     event = Event(id_increment, event_name, ctx.author)
     if not check_events_server(ctx):

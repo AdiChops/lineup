@@ -203,7 +203,8 @@ async def ready(ctx, eid):
         elif ctx.author != server_events[event_id].host:
             await ctx.send("You are not the host for this event. Only the host can run this command for this event.")
         else:
-            await ctx.send(f"{server_events[event_id].currently_served().mention}, {server_events[event_id].host.display_name} is ready for you!")
+            await ctx.send(f"{server_events[event_id].currently_served().mention}, "
+                           f"{server_events[event_id].host.display_name} is ready for you!")
 
 
 @client.command()

@@ -24,3 +24,8 @@ class Event:
 
     def clear_queue(self):
         self.queue = []
+
+    def move_user(self, old_pos, new_pos):
+        user = queue[old_pos]
+        queue.insert(new_pos, user)
+        del queue[old_pos+1]

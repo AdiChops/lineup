@@ -150,13 +150,13 @@ async def move(ctx, id, old_pos, new_pos):
     else:
         server_events = servers[ctx.guild.id]
         event_id = int(id)
-        userToMove = server_events[event_id].queue[old_pos].author.display_name
+        userToMove = server_events[event_id].queue[int(old_pos)].author.display_name
         if event_id not in server_events:
             await ctx.send(f"Sorry, I wasn't able to find any event with ID: {event_id}")
         elif ctx.author != server_events[event_id].host:
             await ctx.send("You are not the host for this event. Only the host can move people for this event.")
         else:
-            server_events[event_id].move_user(old_pos, new_pos)
+            server_events[event_id].move_user(int(old_pos), int(new_pos))
             await ctx.send(f"{userToMove} got moved from position {old_pos} to {new_pos}.")
 
 @client.command()

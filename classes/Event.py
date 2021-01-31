@@ -49,3 +49,6 @@ class Event:
 
     def decrease_user_frequency(self, user):
         self.user_frequency[user] -= 1
+
+    def get_question_at(self, index):
+        return self.queue[index]

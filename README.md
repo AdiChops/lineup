@@ -1,6 +1,6 @@
 # Lineup
 
-#### Streamlined discord event management
+### Streamlined discord event management
 
 Manage your events with lineup. Create events and hold more organized Q&A sessions among a group!
 

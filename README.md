@@ -49,3 +49,6 @@ Removes a topic asked by the user at index [*question_index*] of a given event w
 
 **.rename** (*int [event_id]* *int[question_index]* *String[renamed_question]*)
 Renames a user's question at [*question_index*] in the given event with id [*event_id*] with [*renamed_string*]
+
+### Technologies
+Uses the `discord.py` library and is deployed on Heroku.

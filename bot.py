@@ -87,6 +87,20 @@ async def enter(ctx, id, *, topic="Topic N/A"):
 
 
 @client.command()
+async def leave(ctx, id, queue_id):
+    if not check_events_server(ctx):
+        await ctx.send("Sorry I wasn't able to find any events")
+    else:
+        server_events = servers[ctx.guild.id]
+        event_id = int(id)
+        if event_id not in server_events:
+            await ctx.send(f"Sorry I wasn't able to find any event with ID: {event_id}")
+        else:
+            server_events[event_id].leave_queue(ctx.author, int(queue_id) - 1)
+            await ctx.send(f"{ctx.author.display_name} has left the queue {event_id}")
+
+
+@client.command()
 @has_permissions(administrator=True)
 async def clear(ctx, id):
     if ctx.guild.id not in servers:

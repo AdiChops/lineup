@@ -1,5 +1,5 @@
 # Lineup
-
+![Lineup graphic](https://github.com/AdiChops/lineup/blob/main/lineup_graphic.png?raw=true)
 ## Streamlined Discord event queue management
 
 Manage your events with lineup. Create events and hold more organized Q&A sessions among a group!

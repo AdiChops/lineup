@@ -6,7 +6,7 @@ Manage your events with lineup. Create events and hold more organized Q&A sessio
 
 ### **Administrator commands**
 
-**These commands are only available to those in a server with the role "Host". Please ensure that all who'll need use of these functions have admin privileges.**
+**These commands are only available to those in a server with the role "Host". Please ensure that all who'll need use of these functions have the "Host" role.**
 
 **.begin** (*String [event_name]*)
 Starts an event with name [*event_name*]

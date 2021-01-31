@@ -1,4 +1,5 @@
 import discord
+import os
 from discord.ext import commands
 from discord.ext.commands import has_permissions
 
@@ -231,4 +232,5 @@ async def rename(ctx, eid, ind, *, new_question):
                 await ctx.send("The topic was renamed")
 
 
-client.run('ODA1MTIwMTc4ODAyMzkzMTA4.YBWQmQ.HynCQfH1FcaRR-ah6UycFOd7sSs')
+access_token = os.environ["ACCESS_TOKEN"]
+client.run(access_token)

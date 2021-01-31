@@ -1,1 +1,1 @@
-worker: python lineup/bot.py
+worker: python bot.py

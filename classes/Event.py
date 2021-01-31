@@ -22,14 +22,9 @@ class Event:
         self.increase_user_frequency(user)
         return True
 
-    def leave_queue(self, user, question_id):
-        for users in self.queue:
-            if user.display_name == users.author.display_name and question_id != -1:
-                self.queue.pop(question_id)
-
     def resolve(self, question_index):
         self.decrease_user_frequency(self.queue[question_index].author)
-        return self.queue.pop(question_index - 1)
+        return self.queue.pop(question_index)
 
     def currently_served(self):
         return self.queue[0].author

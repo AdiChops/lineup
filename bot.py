@@ -113,8 +113,12 @@ async def leave(ctx, eid, question_id):
         if event_id not in server_events:
             await ctx.send(f"Sorry I wasn't able to find any event with ID: {event_id}")
         else:
-            server_events[event_id].leave_queue(ctx.author, int(question_id) - 1)
-            await ctx.send(f"{ctx.author.display_name} has left the queue {event_id}")
+            current = server_events[event_id].get_question_at(question_id - 1)
+            if current.author != ctx.author:
+                await ctx.send("You can only remove yourself from the queue")
+            else:
+                server_events[event_id].resolve(int(question_id) - 1)
+                await ctx.send(f"{ctx.author.display_name} has left the queue {event_id}")
 
 
 @client.command()
@@ -189,7 +193,7 @@ async def resolve(ctx, eid, question_index=1):
         elif ctx.author != server_events[event_id].host:
             await ctx.send("You are not the host for this event. Only the host can resolve for this event.")
         else:
-            server_events[event_id].resolve(question_index)
+            server_events[event_id].resolve(question_index - 1)
             await ctx.send(f"Resolved. {server_events[event_id].currently_served().mention}, you're up next!")
 
 

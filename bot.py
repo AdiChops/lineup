@@ -50,7 +50,7 @@ async def le(ctx):
         embedVar = discord.Embed(title="Current events",
                                  description="To ask a question in an event, type `.enter [event_id] [question_topic]`", color=0x902020)
         for event in server_events:
-            embedVar.add_field(name=server_events[event].eventName, value=f'Hosted by: {server_events[event].host.display_name}. ID: {server_events[event].id}', inline=False)
+            embedVar.add_field(name=server_events[event].eventName, value=f'Hosted by: {server_events[event].host.display_name}. Event ID: {server_events[event].id}. There are currently {len(server_events[event].queue)} in queue', inline=False)
         await ctx.send(embed=embedVar)
 
 
@@ -124,6 +124,7 @@ async def clear(ctx, id):
             server_events[event_id].clear_queue()
             await ctx.send(f"The queue has been cleared for {server_events[event_id].eventName}.")
 
+
 @client.command()
 @has_permissions(administrator=True)
 @commands.has_role('Host')
@@ -142,6 +143,7 @@ async def end(ctx, id, *, leave_message="Thanks for attending!"):
            await ctx.send(f"{ctx.author.display_name}, the host for the event '{server_events[event_id].eventName}' has ended the event!")
            await ctx.send(leave_message)
            server_events.pop(event_id)
+
 
 @client.command()
 @has_permissions(administrator=True)

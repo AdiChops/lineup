@@ -23,7 +23,6 @@ async def ping(ctx):
 
 
 @client.command()
-@has_permissions(administrator=True)
 @commands.has_role('Host')
 async def begin(ctx, *, event_name):
     """Only for administrators: begins an even with <event_name>"""
@@ -107,7 +106,6 @@ async def leave(ctx, id, question_id):
 
 
 @client.command()
-@has_permissions(administrator=True)
 @commands.has_role('Host')
 async def clear(ctx, id):
     """Only for administrators: clears the queue of a given <event_id>"""
@@ -126,7 +124,6 @@ async def clear(ctx, id):
 
 
 @client.command()
-@has_permissions(administrator=True)
 @commands.has_role('Host')
 async def end(ctx, id, *, leave_message="Thanks for attending!"):
    """Only for administrators: ends event with id <event_id>"""
@@ -146,7 +143,7 @@ async def end(ctx, id, *, leave_message="Thanks for attending!"):
 
 
 @client.command()
-@has_permissions(administrator=True)
+@commands.has_role('Host')
 async def move(ctx, id, old_pos, new_pos):
     if ctx.guild.id  not in servers:
         await ctx.send("Sorry, I wasn't able to find any events")
@@ -163,7 +160,7 @@ async def move(ctx, id, old_pos, new_pos):
             await ctx.send(f"{userToMove} got moved from position {old_pos} to {new_pos}.")
 
 @client.command()
-@has_permissions(administrator=True)
+@commands.has_role('Host')
 async def resolve(ctx, id):
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
@@ -180,7 +177,7 @@ async def resolve(ctx, id):
 
 
 @client.command()
-@has_permissions(administrator=True)
+@commands.has_role('Host')
 async def ready(ctx, id):
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")

@@ -41,7 +41,7 @@ async def begin(ctx, *, event_name):
 @client.command(aliases=['liste', 'listevents'])
 async def le(ctx):
     """Lists all events currently taking place"""
-    if not check_events_server(ctx):
+    if not check_events_server(ctx) or len(servers[ctx.guild.id]) == 0:
         embed_var = discord.Embed(title="There are currently no events taking place at this time",
                                   description="Once a host starts an event you'll find them "
                                               "all listed here!", color=0x902020)

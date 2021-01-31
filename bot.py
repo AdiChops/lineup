@@ -124,6 +124,21 @@ async def end(ctx, id, *, leave_message="Thanks for attending!"):
            await ctx.send(leave_message)
            server_events.pop(event_id)
 
-
+@client.command()
+@has_permissions(administrator=True)
+async def move(ctx, id, old_pos, new_pos):
+    if ctx.guild.id  not in servers:
+        await ctx.send("Sorry, I wasn't able to find any events")
+    else:
+        server_events = servers[ctx.guild.id]
+        event_id = int(id)
+        userToMove = server_events[event_id].queue[old_pos].author.display_name
+        if event_id not in server_events:
+            await ctx.send(f"Sorry, I wasn't able to find any event with ID: {event_id}")
+        elif ctx.author != server_events[event_id].host:
+            await ctx.send("You are not the host for this event. Only the host can move people for this event.")
+        else:
+            server_events[event_id].move_user(old_pos, new_pos)
+            await ctx.send(f"{userToMove} got moved from position {old_pos} to {new_pos}.")
 
 client.run('ODA1MTIwMTc4ODAyMzkzMTA4.YBWQmQ.HynCQfH1FcaRR-ah6UycFOd7sSs')

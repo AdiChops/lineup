@@ -120,7 +120,7 @@ async def leave(ctx, eid, question_id):
 @client.command()
 @commands.has_role('Host')
 async def clear(ctx, eid):
-    """Only for administrators: clears the queue of a given <event_id>"""
+    """Only for hosts: clears the queue of a given <event_id>"""
     if check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -138,7 +138,7 @@ async def clear(ctx, eid):
 @client.command()
 @commands.has_role('Host')
 async def end(ctx, eid, *, leave_message="Thanks for attending!"):
-    """Only for administrators: ends event with id <event_id>"""
+    """Only for hosts: ends event with id <event_id>"""
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -158,6 +158,7 @@ async def end(ctx, eid, *, leave_message="Thanks for attending!"):
 @client.command()
 @commands.has_role('Host')
 async def move(ctx, eid, old_pos, new_pos):
+    """Only for hosts: Moves person at <old_position> to <new_position> with event id <event_id>"""
     if ctx.guild.id not in servers:
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -176,6 +177,8 @@ async def move(ctx, eid, old_pos, new_pos):
 @client.command()
 @commands.has_role('Host')
 async def resolve(ctx, eid, question_index=1):
+    """Only for hosts: Resolves current user's question
+    (or question at index <index>) and mentions next user in queue"""
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -193,6 +196,7 @@ async def resolve(ctx, eid, question_index=1):
 @client.command()
 @commands.has_role('Host')
 async def ready(ctx, eid):
+    """Only for hosts: Mentions next user in queue of <event_id>"""
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -209,6 +213,7 @@ async def ready(ctx, eid):
 
 @client.command()
 async def rename(ctx, eid, ind, *, new_question):
+    """Renames question at <ind> to <new_question>"""
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:

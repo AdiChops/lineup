@@ -24,6 +24,7 @@ async def ping(ctx):
 
 @client.command()
 @has_permissions(administrator=True)
+@commands.has_role('Host')
 async def begin(ctx, *, event_name):
     """Only for administrators: begins an even with <event_name>"""
     global id_increment
@@ -106,8 +107,9 @@ async def leave(ctx, id, queue_id):
 
 @client.command()
 @has_permissions(administrator=True)
+@commands.has_role('Host')
 async def clear(ctx, id):
-    """Only for administrators: clears all existing events from the server"""
+    """Only for administrators: clears the queue of a given <event_id>"""
     if check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -122,6 +124,8 @@ async def clear(ctx, id):
             await ctx.send(f"The queue has been cleared for {server_events[event_id].eventName}.")
 
 @client.command()
+@has_permissions(administrator=True)
+@commands.has_role('Host')
 async def end(ctx, id, *, leave_message="Thanks for attending!"):
    """Only for administrators: ends event with id <event_id>"""
    if not check_events_server(ctx):

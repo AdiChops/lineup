@@ -1,4 +1,4 @@
-# Lineup
+# lineup
 ![Lineup graphic](https://github.com/AdiChops/lineup/blob/main/lineup_graphic.png?raw=true)
 ## Streamlined Discord event queue management
 

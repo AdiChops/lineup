@@ -14,10 +14,10 @@ class Event:
     def enter_queue(self, user, topic):
         self.queue.append(Question(user, topic))
 
-    def leave_queue(self, user, queue_id):
+    def leave_queue(self, user, question_id):
         for users in self.queue:
-            if user.display_name == users.author.display_name and queue_id != -1:
-                self.queue.pop(queue_id)
+            if user.display_name == users.author.display_name and question_id != -1:
+                self.queue.pop(question_id)
 
     def resolve(self):
         return self.queue.pop(0)

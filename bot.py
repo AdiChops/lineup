@@ -1,12 +1,12 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands import has_permissions
 
 from classes.Event import Event
 
 client = commands.Bot(command_prefix='.')
 id_increment = 0
 servers = {}
+
 
 def check_events_server(ctx):
     return ctx.guild.id in servers
@@ -15,6 +15,7 @@ def check_events_server(ctx):
 @client.event
 async def on_ready():
     print('Bot is ready.')
+
 
 @client.command()
 async def ping(ctx):
@@ -40,17 +41,23 @@ async def begin(ctx, *, event_name):
 async def le(ctx):
     """Lists all events currently taking place"""
     if not check_events_server(ctx):
-        embedVar = discord.Embed(title="There are currently no events taking place at this time",
-                                 description="Once a host starts an event you'll find them "
-                                             "all listed here!", color=0x902020)
-        await ctx.send(embed=embedVar)
+        embed_var = discord.Embed(title="There are currently no events taking place at this time",
+                                  description="Once a host starts an event you'll find them "
+                                              "all listed here!", color=0x902020)
+        await ctx.send(embed=embed_var)
     else:
         server_events = servers[ctx.guild.id]
-        embedVar = discord.Embed(title="Current events",
-                                 description="To ask a question in an event, type `.enter [event_id] [question_topic]`", color=0x902020)
+        embed_var = discord.Embed(title="Current events",
+                                  description="To ask a question in an event, type "
+                                              ".enter [event_id] [question_topic]`",
+                                  color=0x902020)
         for event in server_events:
-            embedVar.add_field(name=server_events[event].eventName, value=f'Hosted by: {server_events[event].host.display_name}. Event ID: {server_events[event].id}. There are currently {len(server_events[event].queue)} in queue', inline=False)
-        await ctx.send(embed=embedVar)
+            embed_var.add_field(name=server_events[event].eventName,
+                                value=f'Hosted by: {server_events[event].host.display_name}. Event ID: '
+                                      f'{server_events[event].id}. There are currently '
+                                      f'{len(server_events[event].queue)} in queue',
+                                inline=False)
+        await ctx.send(embed=embed_var)
 
 
 @client.command(aliases=['q'])
@@ -66,13 +73,14 @@ async def queue(ctx, id):
             await ctx.send("Sorry, I wasn't able to find that event")
         else:
             count = 1
-            embedVar = discord.Embed(title=f"{server_events[event_id].eventName}",
-                                     description=f"Hosted by: {server_events[event_id].host.display_name}", color=0x902020)
+            embed_var = discord.Embed(title=f"{server_events[event_id].eventName}",
+                                      description=f"Hosted by: {server_events[event_id].host.display_name}",
+                                      color=0x902020)
             for entry in server_events[event_id].queue:
-                embedVar.add_field(name=f"{count}. {entry.topic}",
-                                   value=f"Question asked by {entry.author.display_name}", inline=False)
+                embed_var.add_field(name=f"{count}. {entry.topic}",
+                                    value=f"Question asked by {entry.author.display_name}", inline=False)
                 count += 1
-            await ctx.send(embed=embedVar)
+            await ctx.send(embed=embed_var)
 
 
 @client.command()
@@ -129,38 +137,41 @@ async def clear(ctx, id):
 @client.command()
 @commands.has_role('Host')
 async def end(ctx, id, *, leave_message="Thanks for attending!"):
-   """Only for administrators: ends event with id <event_id>"""
-   if not check_events_server(ctx):
-       await ctx.send("Sorry, I wasn't able to find any events")
-   else:
-       server_events = servers[ctx.guild.id]
-       event_id = int(id)
-       if event_id not in server_events:
-           await ctx.send(f"Sorry, I wasn't able to find any event with ID: {event_id}")
-       elif ctx.author != server_events[event_id].host:
-           await ctx.send("You are not the host for this event. Only the host can end their own event.")
-       else:
-           await ctx.send(f"{ctx.author.display_name}, the host for the event '{server_events[event_id].eventName}' has ended the event!")
-           await ctx.send(leave_message)
-           server_events.pop(event_id)
+    """Only for administrators: ends event with id <event_id>"""
+    if not check_events_server(ctx):
+        await ctx.send("Sorry, I wasn't able to find any events")
+    else:
+        server_events = servers[ctx.guild.id]
+        event_id = int(id)
+        if event_id not in server_events:
+            await ctx.send(f"Sorry, I wasn't able to find any event with ID: {event_id}")
+        elif ctx.author != server_events[event_id].host:
+            await ctx.send("You are not the host for this event. Only the host can end their own event.")
+        else:
+            await ctx.send(
+                f"{ctx.author.display_name}, the host for the event '"
+                f"{server_events[event_id].eventName}' has ended the event!")
+            await ctx.send(leave_message)
+            server_events.pop(event_id)
 
 
 @client.command()
 @commands.has_role('Host')
 async def move(ctx, id, old_pos, new_pos):
-    if ctx.guild.id  not in servers:
+    if ctx.guild.id not in servers:
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
         server_events = servers[ctx.guild.id]
         event_id = int(id)
-        userToMove = server_events[event_id].queue[int(old_pos) - 1].author.display_name
+        user_to_move = server_events[event_id].queue[int(old_pos) - 1].author.display_name
         if event_id not in server_events:
             await ctx.send(f"Sorry, I wasn't able to find any event with ID: {event_id}")
         elif ctx.author != server_events[event_id].host:
             await ctx.send("You are not the host for this event. Only the host can move people for this event.")
         else:
-            server_events[event_id].move_user(int(old_pos) - 1, int(new_pos)  - 1)
-            await ctx.send(f"{userToMove} got moved from position {old_pos} to {new_pos}.")
+            server_events[event_id].move_user(int(old_pos) - 1, int(new_pos) - 1)
+            await ctx.send(f"{user_to_move} got moved from position {old_pos} to {new_pos}.")
+
 
 @client.command()
 @commands.has_role('Host')
@@ -192,7 +203,10 @@ async def ready(ctx, id):
         elif ctx.author != server_events[event_id].host:
             await ctx.send("You are not the host for this event. Only the host can run this command for this event.")
         else:
-            await ctx.send(f"{server_events[event_id].currently_served().mention}, {server_events[event_id].host.display_name} is ready for you!")
+            await ctx.send(
+                f"{server_events[event_id].currently_served().mention}, "
+                f"{server_events[event_id].host.display_name} is ready for you!")
+
 
 @client.command()
 async def rename(ctx, id, ind, *, new_question):
@@ -211,8 +225,6 @@ async def rename(ctx, id, ind, *, new_question):
             else:
                 current.topic = new_question
                 await ctx.send("The topic was renamed")
-
-
 
 
 client.run('ODA1MTIwMTc4ODAyMzkzMTA4.YBWQmQ.HynCQfH1FcaRR-ah6UycFOd7sSs')

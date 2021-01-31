@@ -1,7 +1,6 @@
 import discord
 import os
 from discord.ext import commands
-from discord.ext.commands import has_permissions
 
 from classes.Event import Event
 

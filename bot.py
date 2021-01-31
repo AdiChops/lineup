@@ -86,8 +86,11 @@ async def enter(ctx, id, *, topic="Topic N/A"):
         if event_id not in server_events:
             await ctx.send(f"Sorry, I wasn't able to find any event with ID: {event_id}")
         else:
-            server_events[event_id].enter_queue(ctx.author, topic)
-            await ctx.send(f"{ctx.author.display_name} was added to queue {event_id}")
+
+            await ctx.send(f"{ctx.author.display_name} was added to queue {event_id}"
+                           if server_events[event_id].enter_queue(ctx.author, topic) else
+                           "You've exceeded the maximum amount of question in a queue, wait for the host "
+                           "to resolve one of your questions")
 
 
 @client.command()
@@ -150,18 +153,18 @@ async def move(ctx, id, old_pos, new_pos):
     else:
         server_events = servers[ctx.guild.id]
         event_id = int(id)
-        userToMove = server_events[event_id].queue[int(old_pos)].author.display_name
+        userToMove = server_events[event_id].queue[int(old_pos) - 1].author.display_name
         if event_id not in server_events:
             await ctx.send(f"Sorry, I wasn't able to find any event with ID: {event_id}")
         elif ctx.author != server_events[event_id].host:
             await ctx.send("You are not the host for this event. Only the host can move people for this event.")
         else:
-            server_events[event_id].move_user(int(old_pos), int(new_pos))
+            server_events[event_id].move_user(int(old_pos) - 1, int(new_pos)  - 1)
             await ctx.send(f"{userToMove} got moved from position {old_pos} to {new_pos}.")
 
 @client.command()
 @commands.has_role('Host')
-async def resolve(ctx, id):
+async def resolve(ctx, id, question_index=1):
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -172,7 +175,7 @@ async def resolve(ctx, id):
         elif ctx.author != server_events[event_id].host:
             await ctx.send("You are not the host for this event. Only the host can resolve for this event.")
         else:
-            server_events[event_id].resolve()
+            server_events[event_id].resolve(question_index)
             await ctx.send(f"Resolved. {server_events[event_id].currently_served().mention}, you're up next!")
 
 

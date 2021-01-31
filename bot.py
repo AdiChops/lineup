@@ -92,7 +92,8 @@ async def enter(ctx, id, *, topic="Topic N/A"):
 
 
 @client.command()
-async def leave(ctx, id, queue_id):
+async def leave(ctx, id, question_id):
+    """Leaves the queue with a given <queue_id> and a given <question_id>"""
     if not check_events_server(ctx):
         await ctx.send("Sorry I wasn't able to find any events")
     else:
@@ -101,7 +102,7 @@ async def leave(ctx, id, queue_id):
         if event_id not in server_events:
             await ctx.send(f"Sorry I wasn't able to find any event with ID: {event_id}")
         else:
-            server_events[event_id].leave_queue(ctx.author, int(queue_id) - 1)
+            server_events[event_id].leave_queue(ctx.author, int(question_id) - 1)
             await ctx.send(f"{ctx.author.display_name} has left the queue {event_id}")
 
 

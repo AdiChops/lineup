@@ -11,8 +11,8 @@ Manage your events with lineup. Create events and hold more organized Q&A sessio
 **.begin** (*String [event_name]*)
 Starts an event with name [*event_name*]
 
-**.end** (*int [event_id]*)
-Ends event with id [*event_id*]
+**.end** (*int [event_id], string [leave_message]*)
+Ends event with id [*event_id*] and displays optional [*leave_message*]
 
 **.clear** (*int [event_id]*)
 Clears all questions in event with id [*event_id*]
@@ -42,7 +42,7 @@ Displays a list of all current events taking place on the server
 Displays the queue of a given event with id [*event_id*]
 
 **.enter** (*int [event_id]* *String [topic]*)
-Enters given event with id [*event_id*] with topic [*topic*]
+Enters given event with id [*event_id*] with optional topic [*topic*]
 
 **.leave** (*int [event_id]* int[*question_index*])
 Removes a topic asked by the user at index [*question_index*] of a given event with id [*event_id*] 

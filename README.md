@@ -1,14 +1,14 @@
 # Lineup
 
-### Streamlined discord event management
+## Streamlined discord event management
 
 Manage your events with lineup. Create events and hold more organized Q&A sessions among a group!
 
-#### **Administrator commands**
+### **Administrator commands**
 
 **These commands are only available to those in a server with the role "Host". Please ensure that all who'll need use of these functions have admin privileges.**
 
-**.begin**</u> (*String [event_name]*)
+**.begin** (*String [event_name]*)
 Starts an event with name [*event_name*]
 
 **.end** (*int [event_id]*)
@@ -23,9 +23,12 @@ Resolves and removes question from queue with given index [*question_index*]
 **.move** (*int [position_1] int [position_2]*)
 Moves question in queue at [*position_1*] to [*position_2*]
 
+**.ready** (*int [event_id]*)
+Notifies the first user the in the queue of event at index [*event_index*] that the host is ready
 
+ 
 
-#### Universal commands
+### Universal commands
 
 **These commands are available to anyone in the server**
 
@@ -43,3 +46,6 @@ Enters given event with id [*event_id*] with topic [*topic*]
 
 **.leave** (*int [event_id]* int[*question_index*])
 Removes a topic asked by the user at index [*question_index*] of a given event with id [*event_id*] 
+
+**.rename** (*int [event_id]* *int[question_index]* *String[renamed_question]*)
+Renames a user's question at [*question_index*] in the given event with id [*event_id*] with [*renamed_string*]

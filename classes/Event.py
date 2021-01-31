@@ -22,6 +22,9 @@ class Event:
     def resolve(self):
         return self.queue.pop(0)
 
+    def currently_served(self):
+        return self.queue[0].author
+
     def clear_queue(self):
         self.queue = []
 

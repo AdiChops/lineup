@@ -24,6 +24,7 @@ async def ping(ctx):
 
 @client.command()
 @has_permissions(administrator=True)
+@commands.has_role('Host')
 async def begin(ctx, *, event_name):
     """Only for administrators: begins an even with <event_name>"""
     global id_increment
@@ -41,7 +42,7 @@ async def le(ctx):
     """Lists all events currently taking place"""
     if not check_events_server(ctx):
         embedVar = discord.Embed(title="There are currently no events taking place at this time",
-                                 description="Once an admin starts an event you'll find them "
+                                 description="Once a host starts an event you'll find them "
                                              "all listed here!", color=0x902020)
         await ctx.send(embed=embedVar)
     else:
@@ -106,8 +107,9 @@ async def leave(ctx, id, queue_id):
 
 @client.command()
 @has_permissions(administrator=True)
+@commands.has_role('Host')
 async def clear(ctx, id):
-    """Only for administrators: clears all existing events from the server"""
+    """Only for administrators: clears the queue of a given <event_id>"""
     if check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -122,6 +124,8 @@ async def clear(ctx, id):
             await ctx.send(f"The queue has been cleared for {server_events[event_id].eventName}.")
 
 @client.command()
+@has_permissions(administrator=True)
+@commands.has_role('Host')
 async def end(ctx, id, *, leave_message="Thanks for attending!"):
    """Only for administrators: ends event with id <event_id>"""
    if not check_events_server(ctx):
@@ -154,5 +158,38 @@ async def move(ctx, id, old_pos, new_pos):
         else:
             server_events[event_id].move_user(old_pos, new_pos)
             await ctx.send(f"{userToMove} got moved from position {old_pos} to {new_pos}.")
+
+@client.command()
+@has_permissions(administrator=True)
+async def resolve(ctx, id):
+    if not check_events_server(ctx):
+        await ctx.send("Sorry, I wasn't able to find any events")
+    else:
+        server_events = servers[ctx.guild.id]
+        event_id = int(id)
+        if event_id not in server_events:
+            await ctx.send(f"Sorry, I wasn't able to find any event with ID: {event_id}")
+        elif ctx.author != server_events[event_id].host:
+            await ctx.send("You are not the host for this event. Only the host can resolve for this event.")
+        else:
+            server_events[event_id].resolve()
+            await ctx.send(f"Resolved. {server_events[event_id].currently_served().mention}, you're up next!")
+
+
+@client.command()
+@has_permissions(administrator=True)
+async def ready(ctx, id):
+    if not check_events_server(ctx):
+        await ctx.send("Sorry, I wasn't able to find any events")
+    else:
+        server_events = servers[ctx.guild.id]
+        event_id = int(id)
+        if event_id not in server_events:
+            await ctx.send(f"Sorry, I wasn't able to find any event with ID: {event_id}")
+        elif ctx.author != server_events[event_id].host:
+            await ctx.send("You are not the host for this event. Only the host can run this command for this event.")
+        else:
+            await ctx.send(f"{server_events[event_id].currently_served().mention}, {server_events[event_id].host.display_name} is ready for you!")
+
 
 client.run('ODA1MTIwMTc4ODAyMzkzMTA4.YBWQmQ.HynCQfH1FcaRR-ah6UycFOd7sSs')

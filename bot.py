@@ -125,7 +125,7 @@ async def leave(ctx, eid, question_id):
 @commands.has_role('Host')
 async def clear(ctx, eid):
     """Only for hosts: clears the queue of a given <event_id>"""
-    if check_events_server(ctx):
+    if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
         server_events = servers[ctx.guild.id]

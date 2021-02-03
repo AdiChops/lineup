@@ -1,0 +1,36 @@
+<html><head><style>body {
+   color: black;
+}
+</style></head><body><h1 id="lineup">Lineup</h1>
+<p><img src="https://github.com/AdiChops/lineup/blob/main/lineup_graphic.png?raw=true" alt="Lineup graphic"></p>
+<h2 id="streamlined-discord-event-queue-management">Streamlined Discord event queue management</h2>
+<p>Manage your events with lineup. Create events and hold more organized Q&amp;A sessions among a group!</p>
+<h3 id="-administrator-commands-"><strong>Administrator commands</strong></h3>
+<p><strong>These commands are only available to those in a server with the role &quot;Host&quot;. Please ensure that all who&#39;ll need use of these functions have the &quot;Host&quot; role.</strong></p>
+<p><strong>.begin</strong> (<em>String [event_name]</em>)
+Starts an event with name [<em>event_name</em>]</p>
+<p><strong>.end</strong> (<em>int [event_id], string [leave_message]</em>)
+Ends event with id [<em>event_id</em>] and displays optional [<em>leave_message</em>]</p>
+<p><strong>.clear</strong> (<em>int [event_id]</em>)
+Clears all questions in event with id [<em>event_id</em>]</p>
+<p><strong>.resolve</strong> (<em>int [question_index]</em>)
+Resolves and removes question from queue with given index [<em>question_index</em>]</p>
+<p><strong>.move</strong> (<em>int [position_1] int [position_2]</em>)
+Moves question in queue at [<em>position_1</em>] to [<em>position_2</em>]</p>
+<p><strong>.ready</strong> (<em>int [event_id]</em>)
+Notifies the first user the in the queue of event at index [<em>event_index</em>] that the host is ready</p>
+<h3 id="universal-commands">Universal commands</h3>
+<p><strong>These commands are available to anyone in the server</strong></p>
+<p><strong>.help</strong>
+Displays all commands </p>
+<p><strong>.list_events</strong>
+Displays a list of all current events taking place on the server</p>
+<p><strong>.queue</strong> (<em>int [event_id]</em>)
+Displays the queue of a given event with id [<em>event_id</em>]</p>
+<p><strong>.enter</strong> (<em>int [event_id]</em> <em>String [topic]</em>)
+Enters given event with id [<em>event_id</em>] with optional topic [<em>topic</em>]</p>
+<p><strong>.leave</strong> (<em>int [event_id]</em> int[<em>question_index</em>])
+Removes a topic asked by the user at index [<em>question_index</em>] of a given event with id [<em>event_id</em>] </p>
+<p><strong>.rename</strong> (<em>int [event_id]</em> <em>int[question_index]</em> <em>String[renamed_question]</em>)
+Renames a user&#39;s question at [<em>question_index</em>] in the given event with id [<em>event_id</em>] with [<em>renamed_string</em>]</p>
+</body></html>

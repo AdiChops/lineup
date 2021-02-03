@@ -1,2 +1,2 @@
 worker: python bot.py
-web: start lineupsite.html
+web: vendor/bin/heroku-php-apache2 public/

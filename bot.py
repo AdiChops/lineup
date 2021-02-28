@@ -1,6 +1,7 @@
 import discord
 import os
 from discord.ext import commands
+from dotenv import load_dotenv
 
 from classes.Event import Event
 
@@ -235,5 +236,8 @@ async def rename(ctx, eid, ind, *, new_question):
                 await ctx.send("The topic was renamed")
 
 
-access_token = os.environ["ACCESS_TOKEN"]
-client.run(access_token)
+
+load_dotenv()
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+
+client.run(ACCESS_TOKEN)

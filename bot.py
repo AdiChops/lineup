@@ -1,6 +1,7 @@
 import discord
 import os
 from discord.ext import commands
+import sys
 
 from classes.Event import Event
 
@@ -22,6 +23,7 @@ async def on_ready():
 async def ping(ctx):
     """Returns the latency of the bot"""
     print(f"Ping command sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+    sys.stdout.flush()
     await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
 
 
@@ -30,6 +32,7 @@ async def ping(ctx):
 async def begin(ctx, *, event_name):
     """Only for hosts: begins an even with <event_name>"""
     print(f"Begin command sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+    sys.stdout.flush()
     global id_increment
     event = Event(id_increment, event_name, ctx.author)
     if not check_events_server(ctx):
@@ -44,6 +47,7 @@ async def begin(ctx, *, event_name):
 async def le(ctx):
     """Lists all events currently taking place"""
     print(f"List events command sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+    sys.stdout.flush()
     if not check_events_server(ctx) or len(servers[ctx.guild.id]) == 0:
         embed_var = discord.Embed(title="There are currently no events taking place at this time",
                                   description="Once a host starts an event you'll find them "
@@ -67,6 +71,7 @@ async def le(ctx):
 async def queue(ctx, eid):
     """Displays queue for a given <queue_id>"""
     print(f"Queue command sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+    sys.stdout.flush()
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -92,6 +97,7 @@ async def queue(ctx, eid):
 async def enter(ctx, eid, *, topic="Topic N/A"):
     """Enters a queue with a given <queue_id>"""
     print(f"Enter command sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+    sys.stdout.flush()
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -111,6 +117,7 @@ async def enter(ctx, eid, *, topic="Topic N/A"):
 async def leave(ctx, eid, question_id):
     """Leaves the queue with a given <queue_id> and a given <question_id>"""
     print(f"Leave command sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+    sys.stdout.flush()
     if not check_events_server(ctx):
         await ctx.send("Sorry I wasn't able to find any events")
     else:
@@ -132,6 +139,7 @@ async def leave(ctx, eid, question_id):
 async def clear(ctx, eid):
     """Only for hosts: clears the queue of a given <event_id>"""
     print(f"Clear command sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+    sys.stdout.flush()
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -151,6 +159,7 @@ async def clear(ctx, eid):
 async def end(ctx, eid, *, leave_message="Thanks for attending!"):
     """Only for hosts: ends event with id <event_id>"""
     print(f"End command sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+    sys.stdout.flush()
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -172,6 +181,7 @@ async def end(ctx, eid, *, leave_message="Thanks for attending!"):
 async def move(ctx, eid, old_pos, new_pos):
     """Only for hosts: Moves person at <old_position> to <new_position> with event id <event_id>"""
     print(f"Move command sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+    sys.stdout.flush()
     if ctx.guild.id not in servers:
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -193,6 +203,7 @@ async def resolve(ctx, eid, question_index=1):
     """Only for hosts: Resolves current user's question
     (or question at index <index>) and mentions next user in queue"""
     print(f"Resolve command sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+    sys.stdout.flush()
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -212,6 +223,7 @@ async def resolve(ctx, eid, question_index=1):
 async def ready(ctx, eid):
     """Only for hosts: Mentions next user in queue of <event_id>"""
     print(f"Ready command sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+    sys.stdout.flush()
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:
@@ -230,6 +242,7 @@ async def ready(ctx, eid):
 async def rename(ctx, eid, ind, *, new_question):
     """Renames question at <ind> to <new_question>"""
     print(f"Rename command sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+    sys.stdout.flush()
     if not check_events_server(ctx):
         await ctx.send("Sorry, I wasn't able to find any events")
     else:

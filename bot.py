@@ -259,6 +259,11 @@ async def rename(ctx, eid, ind, *, new_question):
                 current.topic = new_question
                 await ctx.send("The topic was renamed")
 
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        print(f"Error sent from server: {ctx.message.guild.name} by {ctx.message.author}")
+        sys.stdout.flush()
 
 access_token = os.environ["ACCESS_TOKEN"]
 client.run(access_token)

@@ -1,6 +1,7 @@
 import discord
 import os
 from discord.ext import commands
+from dotenv import load_dotenv
 import sys
 
 from classes.Event import Event
@@ -265,5 +266,8 @@ async def on_command_error(ctx, error):
         print(f"Error sent from server: {ctx.message.guild.name} by {ctx.message.author}")
         sys.stdout.flush()
 
-access_token = os.environ["ACCESS_TOKEN"]
-client.run(access_token)
+
+load_dotenv()
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+
+client.run(ACCESS_TOKEN)
